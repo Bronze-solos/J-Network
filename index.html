@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>J-NETWORK | RED OG</title>
+    <title>J-Network TierList System</title>
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --bg-deep: #050000; --red-lava: #ff0000; --red-glow: rgba(255, 0, 0, 0.6); --ht-gold: #ffcc00; --text-main: #ffffff; --text-dim: #999; }
@@ -571,7 +571,6 @@
     const MODES = ["Overall", "Sword", "Vanilla", "UHC", "Pot", "NetherOP", "SMP", "Axe", "Mace", "Iron UHC", "Community", "Staff"];
     const KITS = ["Sword", "Vanilla", "UHC", "Pot", "NetherOP", "SMP", "Axe", "Mace", "Iron UHC"];
     
-    // Icon mappings using mctiers.com SVG icons
     const MODE_ICONS = {
         "Overall": "https://mctiers.com/tier_icons/overall.svg",
         "Sword": "https://mctiers.com/tier_icons/sword.svg",
@@ -590,7 +589,6 @@
     let PLAYERS = [];
     let currentMode = "Overall";
     
-    // Create diverse particle system
     function createParticles() {
         const container = document.getElementById('particles');
         const particleTypes = [
@@ -607,11 +605,8 @@
                 particle.className = `particle ${type.class}`;
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.animationDelay = Math.random() * 10 + 's';
-                
-                // Add random duration variation
-                const baseDuration = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--particle-duration') || '5');
+                const baseDuration = 5;
                 particle.style.animationDuration = (baseDuration + Math.random() * 3) + 's';
-                
                 container.appendChild(particle);
             }
         });
@@ -630,20 +625,14 @@
     
     function setMode(m) { 
         const board = document.getElementById('board');
-        
-        // Add transition effect
         board.classList.add('transitioning');
         
         setTimeout(() => {
             currentMode = m; 
             renderTabs(); 
             renderBoard();
-            
-            // Show board with animation
             board.classList.remove('transitioning');
             board.classList.add('fade-in');
-            
-            // Remove animation class after it completes
             setTimeout(() => {
                 board.classList.remove('fade-in');
             }, 500);
@@ -768,10 +757,19 @@
     function renderKitTiers(board) {
         const eligible = PLAYERS.filter(p => p.tiers && p.tiers[currentMode] && p.tiers[currentMode] !== "UR");
         
-        // Always show all 5 tiers
-        for(let t=1; t<=5; t++) {
+        for(let t = 1; t <= 5; t++) {
             const inTier = eligible.filter(p => p.tiers[currentMode].includes(t.toString()));
-            inTier.sort((a,b) => (b.prestige || 0) - (a.prestige || 0));
+
+            // FIX: Sort HT above LT within each tier, then by prestige within each group
+            inTier.sort((a, b) => {
+                const ra = a.tiers[currentMode];
+                const rb = b.tiers[currentMode];
+                const aIsHT = ra.startsWith('HT');
+                const bIsHT = rb.startsWith('HT');
+                if (aIsHT && !bIsHT) return -1;
+                if (!aIsHT && bIsHT) return 1;
+                return (b.prestige || 0) - (a.prestige || 0);
+            });
             
             let tierContent = '';
             if(inTier.length === 0) {
@@ -787,7 +785,6 @@
         }
     }
     
-    // Search functionality
     function searchPlayer() {
         const query = document.getElementById('searchInput').value.trim().toLowerCase();
         if(!query) return;
@@ -848,17 +845,14 @@
         closeSearchModal();
     }
     
-    // Close modal when clicking outside
     document.getElementById('searchModal').addEventListener('click', function(e) {
         if(e.target === this) closeSearchModal();
     });
     
-    // Close modal with Escape key
     document.addEventListener('keydown', function(e) {
         if(e.key === 'Escape') closeSearchModal();
     });
     
-    // Initialize
     createParticles();
     loadPlayers();
     setInterval(loadPlayers, 30000);
