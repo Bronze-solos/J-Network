@@ -212,13 +212,5 @@
         "region": "NA",
         "prestige": 0,
         "tiers": {}
-    },
-    {
-        "name": "Greyninja157061",
-        "region": "NA",
-        "prestige": 5,
-        "tiers": {
-            "Smp": "HT5"
-        }
     }
 ]
