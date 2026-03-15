@@ -220,5 +220,11 @@
         "tiers": {
             "SMP": "HT5"
         }
+    },
+    {
+        "name": "InvestedTie55",
+        "region": "NA",
+        "prestige": 0,
+        "tiers": {}
     }
 ]
