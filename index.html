@@ -4,534 +4,338 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>J-Network TierList System</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23050000'/><rect width='100' height='100' rx='12' fill='none' stroke='%23ff0000' stroke-width='6'/><text y='78' x='50' text-anchor='middle' font-size='72' font-family='Arial Black,sans-serif' font-weight='900' fill='%23ff0000'>J</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600;700;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-deep: #050000; --red-lava: #ff0000; --red-glow: rgba(255, 0, 0, 0.6); --ht-gold: #ffcc00; --text-main: #ffffff; --text-dim: #999; }
-        body { background-color: var(--bg-deep); color: var(--text-main); font-family: 'Inter', sans-serif; margin: 0; overflow-x: hidden; position: relative; }
-        
-        /* Animated Background */
-        .background-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden; }
-        .bg-gradient { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at center, #220000 0%, #050000 100%); }
-        
-        /* Falling Particles - Multiple Types */
-        .particle { position: absolute; background: var(--red-lava); border-radius: 50%; box-shadow: 0 0 20px var(--red-glow), 0 0 40px var(--red-glow); }
-        
-        /* Large falling embers */
-        .particle.fall-large { width: 8px; height: 8px; animation: fall-large 4s linear infinite; opacity: 0.9; }
-        @keyframes fall-large {
-            0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) translateX(-100px) rotate(360deg); opacity: 0.3; }
+        :root {
+            --bg-deep: #000814;
+            --blue-ice: #00b4ff;
+            --blue-mid: #0077cc;
+            --blue-dark: #004488;
+            --blue-glow: rgba(0, 180, 255, 0.6);
+            --blue-glow-soft: rgba(0, 150, 255, 0.3);
+            --ice-white: #cceeff;
+            --ht-gold: #ffcc00;
+            --text-main: #ffffff;
+            --text-dim: #6699bb;
+            --border-dim: #002244;
+            --border-mid: #003366;
+            --border-bright: #004488;
         }
-        
-        /* Medium falling sparks */
-        .particle.fall-medium { width: 6px; height: 6px; animation: fall-medium 6s linear infinite; opacity: 0.8; }
-        @keyframes fall-medium {
-            0% { transform: translateY(-20px) translateX(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) translateX(50px) rotate(-360deg); opacity: 0.2; }
+
+        body {
+            background-color: var(--bg-deep);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
         }
-        
-        /* Small fast particles */
-        .particle.fall-small { width: 3px; height: 3px; animation: fall-small 3s linear infinite; opacity: 1; }
-        @keyframes fall-small {
-            0% { transform: translateY(-20px) translateX(0); opacity: 1; }
-            100% { transform: translateY(100vh) translateX(-30px); opacity: 0; }
+
+        /* ── Background ── */
+        .background-container {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0; overflow: hidden;
         }
-        
-        /* Floating upward particles */
-        .particle.float-up { width: 5px; height: 5px; animation: float-up 8s linear infinite; opacity: 0.7; }
-        @keyframes float-up {
-            0% { transform: translateY(100vh) translateX(0) scale(0.5); opacity: 0; }
-            20% { opacity: 0.8; }
-            80% { opacity: 0.5; }
-            100% { transform: translateY(-100px) translateX(100px) scale(1.5); opacity: 0; }
+        .bg-gradient {
+            position: absolute; width: 100%; height: 100%;
+            background: radial-gradient(ellipse at 30% 20%, #001a3a 0%, #000814 60%, #000205 100%);
         }
-        
-        /* Diagonal drifters */
-        .particle.drift { width: 4px; height: 4px; animation: drift 10s linear infinite; opacity: 0.6; }
-        @keyframes drift {
-            0% { transform: translate(-100px, -20px) rotate(0deg); opacity: 0; }
-            25% { opacity: 0.8; }
-            75% { opacity: 0.4; }
-            100% { transform: translate(100vw, 100vh) rotate(720deg); opacity: 0; }
+
+        /* Stars */
+        .stars {
+            position: absolute; width: 100%; height: 100%;
+            background-image:
+                radial-gradient(1px 1px at 10% 15%, rgba(200,235,255,0.8) 0%, transparent 100%),
+                radial-gradient(1px 1px at 25% 40%, rgba(200,235,255,0.6) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 40% 10%, rgba(200,235,255,0.9) 0%, transparent 100%),
+                radial-gradient(1px 1px at 60% 30%, rgba(200,235,255,0.7) 0%, transparent 100%),
+                radial-gradient(1px 1px at 75% 5%, rgba(200,235,255,0.5) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 85% 45%, rgba(200,235,255,0.8) 0%, transparent 100%),
+                radial-gradient(1px 1px at 50% 60%, rgba(200,235,255,0.6) 0%, transparent 100%),
+                radial-gradient(1px 1px at 15% 70%, rgba(200,235,255,0.4) 0%, transparent 100%),
+                radial-gradient(1px 1px at 90% 80%, rgba(200,235,255,0.7) 0%, transparent 100%),
+                radial-gradient(1.5px 1.5px at 35% 85%, rgba(200,235,255,0.5) 0%, transparent 100%);
+            animation: twinkle 6s ease-in-out infinite alternate;
         }
-        
-        /* Animated Grid Floor */
-        .nether-floor { position: fixed; bottom: 0; left: 0; width: 100%; height: 60%; background-image: linear-gradient(var(--red-glow) 2px, transparent 2px), linear-gradient(90deg, var(--red-glow) 2px, transparent 2px); background-size: 50px 50px; transform: perspective(400px) rotateX(65deg); transform-origin: bottom; z-index: 1; opacity: 0.4; animation: lavaFlow 8s linear infinite; }
-        @keyframes lavaFlow { from { background-position: 0 0; } to { background-position: 0 50px; } }
-        
-        /* Pulsing Glow Orbs - More Intense */
-        .glow-orb { position: absolute; border-radius: 50%; filter: blur(80px); animation: pulse 4s ease-in-out infinite; }
-        .glow-orb-1 { width: 500px; height: 500px; background: #ff0000; top: 10%; left: 10%; opacity: 0.35; animation-delay: 0s; }
-        .glow-orb-2 { width: 600px; height: 600px; background: #cc0000; bottom: 20%; right: 15%; opacity: 0.4; animation-delay: 1.3s; }
-        .glow-orb-3 { width: 450px; height: 450px; background: #ff3333; top: 50%; left: 50%; opacity: 0.3; animation-delay: 2.6s; }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.3; }
-            50% { transform: scale(1.5); opacity: 0.6; }
+        @keyframes twinkle {
+            0%   { opacity: 0.6; }
+            100% { opacity: 1; }
         }
-        
-        /* Lightning Flash Effect */
-        .lightning-flash { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, rgba(255, 0, 0, 0.3), transparent 70%); opacity: 0; pointer-events: none; animation: lightning 8s infinite; }
-        @keyframes lightning {
-            0%, 100% { opacity: 0; }
-            45%, 55% { opacity: 0; }
-            48% { opacity: 0.4; }
-            49% { opacity: 0; }
-            50% { opacity: 0.6; }
-            51% { opacity: 0; }
-            52% { opacity: 0.3; }
+
+        /* Snowflakes */
+        .snowflake {
+            position: absolute;
+            color: rgba(200, 235, 255, 0.9);
+            user-select: none;
+            pointer-events: none;
+            animation: snowfall linear infinite;
         }
-        
-        .navbar { background: rgba(0, 0, 0, 0.95); border-bottom: 3px solid var(--red-lava); padding: 0 2rem; height: 120px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(20px); box-shadow: 0 5px 30px rgba(255, 0, 0, 0.3); }
-        
-        /* Enhanced Logo */
+        @keyframes snowfall {
+            0%   { transform: translateY(-30px) translateX(0) rotate(0deg); opacity: 0; }
+            5%   { opacity: 1; }
+            95%  { opacity: 0.6; }
+            100% { transform: translateY(100vh) translateX(var(--drift, 0px)) rotate(360deg); opacity: 0; }
+        }
+
+        /* Ice Grid Floor */
+        .ice-floor {
+            position: fixed; bottom: 0; left: 0;
+            width: 100%; height: 55%;
+            background-image:
+                linear-gradient(rgba(0, 180, 255, 0.15) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 180, 255, 0.15) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(500px) rotateX(70deg);
+            transform-origin: bottom;
+            z-index: 1; opacity: 0.5;
+            animation: iceShimmer 10s linear infinite;
+        }
+        @keyframes iceShimmer {
+            from { background-position: 0 0; }
+            to   { background-position: 0 60px; }
+        }
+
+        /* Glow Orbs */
+        .glow-orb { position: absolute; border-radius: 50%; filter: blur(100px); animation: orbPulse 5s ease-in-out infinite; }
+        .glow-orb-1 { width: 600px; height: 600px; background: #0055cc; top: -10%; left: -5%;  opacity: 0.25; animation-delay: 0s; }
+        .glow-orb-2 { width: 500px; height: 500px; background: #0099ff; bottom: 10%; right: 5%; opacity: 0.2;  animation-delay: 1.8s; }
+        .glow-orb-3 { width: 400px; height: 400px; background: #00ccff; top: 40%; left: 45%;  opacity: 0.15; animation-delay: 3.5s; }
+        @keyframes orbPulse {
+            0%, 100% { transform: scale(1);   opacity: 0.2; }
+            50%       { transform: scale(1.4); opacity: 0.4; }
+        }
+
+        /* Aurora */
+        .aurora {
+            position: absolute; top: 0; left: 0; width: 100%; height: 40%;
+            background: linear-gradient(180deg, rgba(0,100,200,0.08) 0%, rgba(0,200,255,0.05) 40%, transparent 100%);
+            animation: auroraWave 8s ease-in-out infinite alternate;
+        }
+        @keyframes auroraWave {
+            0%   { transform: skewX(-3deg) scaleY(1);   opacity: 0.6; }
+            50%  { transform: skewX(2deg) scaleY(1.1);  opacity: 1; }
+            100% { transform: skewX(-1deg) scaleY(0.9); opacity: 0.7; }
+        }
+
+        /* ── Navbar ── */
+        .navbar {
+            background: rgba(0, 8, 20, 0.95);
+            border-bottom: 3px solid var(--blue-ice);
+            padding: 0 2rem; height: 120px;
+            display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 100;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 5px 40px rgba(0, 180, 255, 0.25);
+        }
+
         .logo-area { display: flex; flex-direction: column; position: relative; }
-        .sync-indicator { display: flex; align-items: center; gap: 8px; margin-top: 8px; font-size: 0.65rem; color: #666; font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 2px; }
-        .sync-dot { width: 6px; height: 6px; background: #00ff00; border-radius: 50%; box-shadow: 0 0 10px #00ff00; animation: pulse-sync 2s ease-in-out infinite; }
-        @keyframes pulse-sync {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
         .logo-container { position: relative; display: inline-block; }
-        .logo { font-family: 'Rajdhani', sans-serif; font-size: 3rem; font-weight: 900; color: var(--red-lava); letter-spacing: 4px; line-height: 1; position: relative; text-transform: uppercase; background: linear-gradient(180deg, #ff0000 0%, #cc0000 50%, #990000 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 40px rgba(255, 0, 0, 0.4)); animation: logo-pulse 3s ease-in-out infinite; }
-        @keyframes logo-pulse {
-            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 0, 0, 0.8)) drop-shadow(0 0 40px rgba(255, 0, 0, 0.4)); }
-            50% { filter: drop-shadow(0 0 30px rgba(255, 0, 0, 1)) drop-shadow(0 0 60px rgba(255, 0, 0, 0.6)); }
-        }
-        
-        /* Logo Accent Lines */
-        .logo-accent { position: absolute; height: 3px; background: linear-gradient(90deg, transparent, var(--red-lava), transparent); animation: accent-slide 2s ease-in-out infinite; }
-        .logo-accent-top { top: -10px; left: 0; right: 0; }
-        .logo-accent-bottom { bottom: -10px; left: 0; right: 0; animation-delay: 1s; }
-        @keyframes accent-slide {
-            0%, 100% { opacity: 0.3; transform: scaleX(0.8); }
-            50% { opacity: 1; transform: scaleX(1); }
-        }
-        
-        /* Network Badge */
-        .network-badge { position: absolute; top: -8px; right: -45px; background: var(--red-lava); color: #000; font-size: 0.5rem; padding: 3px 8px; font-weight: 900; letter-spacing: 1px; transform: rotate(12deg); box-shadow: 0 0 15px var(--red-glow); animation: badge-glow 2s ease-in-out infinite; }
-        @keyframes badge-glow {
-            0%, 100% { box-shadow: 0 0 15px var(--red-glow); }
-            50% { box-shadow: 0 0 25px var(--red-glow), 0 0 35px var(--red-glow); }
-        }
-        
-        .subtitle { font-family: 'Rajdhani'; font-size: 0.7rem; color: #888; letter-spacing: 4px; margin-top: 8px; font-weight: 700; text-transform: uppercase; opacity: 0.7; }
-        
-        /* Realm Info Styles */
-        .realm-info {
-            background: linear-gradient(135deg, var(--red-lava) 0%, #cc0000 100%);
-            color: white;
-            padding: 25px 60px;
-            text-decoration: none;
-            font-family: 'Rajdhani';
-            font-weight: 800;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(255, 0, 0, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            border: none;
-        }
-        .realm-info:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 60px rgba(255, 0, 0, 0.6);
-        }
-        .realm-icon {
+
+        .logo {
             font-family: 'Rajdhani', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: white;
-            letter-spacing: 2px;
+            font-size: 3rem; font-weight: 900;
+            letter-spacing: 4px; line-height: 1; text-transform: uppercase;
+            background: linear-gradient(180deg, #88ddff 0%, #00aaff 45%, #0066cc 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(0,180,255,0.9)) drop-shadow(0 0 40px rgba(0,150,255,0.5));
+            animation: logoPulse 3s ease-in-out infinite;
         }
-        .realm-details {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-            align-items: flex-start;
+        @keyframes logoPulse {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(0,180,255,0.9)) drop-shadow(0 0 40px rgba(0,150,255,0.5)); }
+            50%       { filter: drop-shadow(0 0 35px rgba(0,220,255,1))   drop-shadow(0 0 70px rgba(0,180,255,0.7)); }
         }
-        .realm-label {
-            font-family: 'Rajdhani';
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: rgba(255, 255, 255, 0.7);
-            letter-spacing: 2px;
-            text-transform: uppercase;
+
+        .logo-accent {
+            position: absolute; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--blue-ice), transparent);
+            animation: accentSlide 2s ease-in-out infinite;
         }
-        .realm-code {
-            font-family: 'Rajdhani';
-            font-size: 2rem;
-            font-weight: 800;
-            color: white;
-            letter-spacing: 1px;
+        .logo-accent-top    { top: -10px; left: 0; right: 0; }
+        .logo-accent-bottom { bottom: -10px; left: 0; right: 0; animation-delay: 1s; }
+        @keyframes accentSlide {
+            0%, 100% { opacity: 0.3; transform: scaleX(0.7); }
+            50%       { opacity: 1;   transform: scaleX(1); }
         }
-        
-        /* Search Bar Styles */
+
+        .network-badge {
+            position: absolute; top: -8px; right: -45px;
+            background: var(--blue-ice); color: #000;
+            font-size: 0.5rem; padding: 3px 8px;
+            font-weight: 900; letter-spacing: 1px; transform: rotate(12deg);
+            box-shadow: 0 0 15px var(--blue-glow);
+            animation: badgeGlow 2s ease-in-out infinite;
+        }
+        @keyframes badgeGlow {
+            0%, 100% { box-shadow: 0 0 15px var(--blue-glow); }
+            50%       { box-shadow: 0 0 30px var(--blue-glow), 0 0 50px var(--blue-glow-soft); }
+        }
+
+        .subtitle { font-family: 'Rajdhani'; font-size: 0.7rem; color: #4477aa; letter-spacing: 4px; margin-top: 8px; font-weight: 700; text-transform: uppercase; opacity: 0.8; }
+        .sync-indicator { display: flex; align-items: center; gap: 8px; margin-top: 6px; font-size: 0.65rem; color: #336688; font-family: 'Rajdhani'; font-weight: 700; letter-spacing: 2px; }
+        .sync-dot { width: 6px; height: 6px; background: #00ffcc; border-radius: 50%; box-shadow: 0 0 10px #00ffcc; animation: syncPulse 2s ease-in-out infinite; }
+        @keyframes syncPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+        /* ── Search ── */
         .search-container { display: flex; align-items: center; gap: 10px; }
-        .search-box { background: rgba(20, 0, 0, 0.8); border: 2px solid #440000; padding: 12px 20px; color: var(--text-main); font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 1rem; width: 300px; transition: 0.3s; outline: none; }
-        .search-box:focus { border-color: var(--red-lava); box-shadow: 0 0 20px var(--red-glow); }
-        .search-box::placeholder { color: #666; }
-        .search-btn { background: var(--red-lava); border: none; padding: 12px 24px; color: #000; font-family: 'Rajdhani', sans-serif; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        .search-btn:hover { box-shadow: 0 0 25px var(--red-glow); transform: translateY(-2px); }
-        .clear-btn { background: #440000; border: 1px solid #660000; padding: 12px 20px; color: var(--text-dim); font-family: 'Rajdhani', sans-serif; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
-        .clear-btn:hover { background: #660000; color: #fff; }
-        
-        /* Search Results Modal */
-        .search-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 200; overflow-y: auto; padding: 40px 20px; }
+        .search-box {
+            background: rgba(0, 15, 40, 0.8); border: 2px solid var(--border-mid);
+            padding: 12px 20px; color: var(--text-main);
+            font-family: 'Rajdhani', sans-serif; font-weight: 600; font-size: 1rem;
+            width: 300px; transition: 0.3s; outline: none;
+        }
+        .search-box:focus { border-color: var(--blue-ice); box-shadow: 0 0 20px var(--blue-glow-soft); }
+        .search-box::placeholder { color: #334455; }
+        .search-btn { background: var(--blue-ice); border: none; padding: 12px 24px; color: #000; font-family: 'Rajdhani', sans-serif; font-weight: 800; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .search-btn:hover { box-shadow: 0 0 25px var(--blue-glow); transform: translateY(-2px); }
+        .clear-btn { background: var(--border-mid); border: 1px solid var(--border-bright); padding: 12px 20px; color: var(--text-dim); font-family: 'Rajdhani', sans-serif; font-weight: 700; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .clear-btn:hover { background: var(--border-bright); color: #fff; }
+
+        /* ── Modal ── */
+        .search-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,5,15,0.96); z-index: 200; overflow-y: auto; padding: 40px 20px; }
         .search-modal.active { display: block; }
-        .modal-content { max-width: 900px; margin: 0 auto; background: rgba(15, 0, 0, 0.98); border: 2px solid var(--red-lava); padding: 40px; position: relative; }
-        .modal-close { position: absolute; top: 20px; right: 20px; background: #440000; border: none; color: var(--text-main); font-size: 1.5rem; width: 40px; height: 40px; cursor: pointer; transition: 0.3s; font-weight: 800; }
-        .modal-close:hover { background: var(--red-lava); color: #000; }
-        .search-result-header { border-bottom: 2px solid var(--red-lava); padding-bottom: 20px; margin-bottom: 30px; }
-        .search-result-name { font-family: 'Rajdhani'; font-size: 2.5rem; font-weight: 800; color: var(--red-lava); text-shadow: 0 0 20px var(--red-glow); }
-        .search-result-meta { color: #999; font-size: 1rem; margin-top: 10px; }
+        .modal-content { max-width: 900px; margin: 0 auto; background: rgba(0,12,30,0.99); border: 2px solid var(--blue-ice); padding: 40px; position: relative; }
+        .modal-close { position: absolute; top: 20px; right: 20px; background: var(--border-mid); border: none; color: var(--text-main); font-size: 1.5rem; width: 40px; height: 40px; cursor: pointer; transition: 0.3s; font-weight: 800; }
+        .modal-close:hover { background: var(--blue-ice); color: #000; }
+        .search-result-header { border-bottom: 2px solid var(--blue-ice); padding-bottom: 20px; margin-bottom: 30px; }
+        .search-result-name { font-family: 'Rajdhani'; font-size: 2.5rem; font-weight: 800; color: var(--blue-ice); text-shadow: 0 0 20px var(--blue-glow); }
+        .search-result-meta { color: #556677; font-size: 1rem; margin-top: 10px; }
         .search-result-prestige { font-size: 1.8rem; font-weight: 800; color: var(--ht-gold); margin-top: 10px; }
         .kit-results { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
-        .kit-card { background: rgba(30, 0, 0, 0.6); border: 1px solid #440000; padding: 20px; transition: 0.3s; }
-        .kit-card:hover { border-color: var(--red-lava); transform: translateY(-5px); }
-        .kit-card.ranked { border-color: #660000; }
-        .kit-card.ht1 { border-color: var(--ht-gold); box-shadow: inset 0 0 15px rgba(255, 204, 0, 0.1); }
+        .kit-card { background: rgba(0,20,50,0.6); border: 1px solid var(--border-mid); padding: 20px; transition: 0.3s; }
+        .kit-card:hover { border-color: var(--blue-ice); transform: translateY(-5px); }
+        .kit-card.ranked { border-color: var(--border-bright); }
+        .kit-card.ht1 { border-color: var(--ht-gold); box-shadow: inset 0 0 15px rgba(255,204,0,0.1); }
         .kit-name { font-family: 'Rajdhani'; font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
         .kit-rank { font-family: 'Rajdhani'; font-size: 2rem; font-weight: 900; }
         .kit-rank.ht1 { color: var(--ht-gold); }
         .kit-rank.ranked { color: #fff; }
-        .kit-rank.unranked { color: #444; }
-        .no-results { text-align: center; padding: 60px 20px; color: #666; font-size: 1.2rem; }
-        
-        /* Updated Mode Bar - Horizontal Scrollable Layout */
-        .mode-bar { 
-            background: rgba(15, 0, 0, 0.9); 
-            padding: 20px 0; 
-            border-bottom: 1px solid #330000; 
-            position: relative; 
-            z-index: 10; 
-            overflow-x: auto;
-            overflow-y: hidden;
-        }
+        .kit-rank.unranked { color: #223344; }
+        .no-results { text-align: center; padding: 60px 20px; color: #334455; font-size: 1.2rem; }
+
+        /* ── Mode Bar ── */
+        .mode-bar { background: rgba(0,10,25,0.9); padding: 20px 0; border-bottom: 1px solid var(--border-dim); position: relative; z-index: 10; overflow-x: auto; overflow-y: hidden; }
         .mode-bar::-webkit-scrollbar { height: 6px; }
         .mode-bar::-webkit-scrollbar-track { background: #000; }
-        .mode-bar::-webkit-scrollbar-thumb { background: #440000; border-radius: 3px; }
-        .mode-bar::-webkit-scrollbar-thumb:hover { background: var(--red-lava); }
-        
-        .mode-list-container {
-            display: flex;
-            justify-content: flex-start;
-            gap: 15px;
-            padding: 0 20px;
-            min-width: min-content;
-        }
-        
-        /* Enhanced Mode Button */
-        .mode-btn { 
-            background: linear-gradient(135deg, rgba(30, 0, 0, 0.9) 0%, rgba(15, 0, 0, 0.9) 100%);
-            border: 2px solid #440000; 
-            padding: 12px 20px; 
-            color: var(--text-dim); 
-            font-family: 'Rajdhani', sans-serif; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        .mode-bar::-webkit-scrollbar-thumb { background: var(--border-mid); border-radius: 3px; }
+        .mode-bar::-webkit-scrollbar-thumb:hover { background: var(--blue-ice); }
+        .mode-list-container { display: flex; gap: 15px; padding: 0 20px; min-width: min-content; }
+
+        .mode-btn {
+            background: linear-gradient(135deg, rgba(0,20,50,0.9) 0%, rgba(0,10,30,0.9) 100%);
+            border: 2px solid var(--border-mid); padding: 12px 20px; color: var(--text-dim);
+            font-family: 'Rajdhani', sans-serif; font-weight: 700; cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
             clip-path: polygon(8% 0, 100% 0, 92% 100%, 0% 100%);
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            gap: 8px;
-            min-width: 110px;
-            position: relative;
-            overflow: hidden;
-            white-space: nowrap;
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            min-width: 110px; position: relative; overflow: hidden; white-space: nowrap;
         }
-        
         .mode-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.3), transparent);
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0,180,255,0.25), transparent);
             transition: left 0.5s;
         }
-        
-        .mode-btn:hover::before {
-            left: 100%;
+        .mode-btn:hover::before { left: 100%; }
+        .mode-btn.active, .mode-btn:hover {
+            background: linear-gradient(135deg, var(--blue-ice) 0%, var(--blue-mid) 100%);
+            color: #000; box-shadow: 0 0 30px var(--blue-glow), inset 0 0 20px rgba(0,0,0,0.3);
+            border-color: var(--blue-ice); transform: translateY(-3px) scale(1.05);
         }
-        
-        .mode-btn.active, .mode-btn:hover { 
-            background: linear-gradient(135deg, var(--red-lava) 0%, #cc0000 100%);
-            color: #000; 
-            box-shadow: 0 0 30px var(--red-glow), inset 0 0 20px rgba(0, 0, 0, 0.3);
-            border-color: var(--red-lava); 
-            transform: translateY(-3px) scale(1.05);
+        .mode-icon { width: 32px; height: 32px; filter: drop-shadow(0 0 8px rgba(0,180,255,0.5)); transition: all 0.4s; opacity: 0.7; }
+        .mode-icon.emoji { font-size: 2rem; width: auto; height: auto; }
+        .mode-btn.active .mode-icon, .mode-btn:hover .mode-icon { filter: drop-shadow(0 0 12px rgba(0,0,0,0.8)); opacity: 1; transform: scale(1.2) rotate(5deg); }
+        .mode-label { font-size: 0.85rem; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* ── Board ── */
+        .board {
+            position: relative; z-index: 5; padding: 2.5rem;
+            display: flex; gap: 20px; width: 100%; box-sizing: border-box; overflow-x: auto;
+            opacity: 1; transform: translateY(0); transition: opacity 0.3s ease, transform 0.3s ease;
         }
-        
-        /* SVG icons */
-        .mode-icon { 
-            width: 32px;
-            height: 32px;
-            filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.5));
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            opacity: 0.7;
-        }
-        
-        .mode-icon.emoji {
-            font-size: 2rem;
-            width: auto;
-            height: auto;
-        }
-        
-        .mode-btn.active .mode-icon, .mode-btn:hover .mode-icon { 
-            filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.8));
-            opacity: 1;
-            transform: scale(1.2) rotate(5deg);
-        }
-        
-        .mode-label {
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-        
-        /* Board Transition Animations */
-        .board { 
-            position: relative; 
-            z-index: 5; 
-            padding: 2.5rem; 
-            display: flex; 
-            gap: 20px; 
-            width: 100%; 
-            box-sizing: border-box; 
-            overflow-x: auto;
-            opacity: 1;
-            transform: translateY(0);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-        }
-        
-        .board.transitioning { 
-            opacity: 0; 
-            transform: translateY(30px) scale(0.98);
-        }
-        
-        .board.fade-in {
-            animation: boardFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        
+        .board.transitioning { opacity: 0; transform: translateY(30px) scale(0.98); }
+        .board.fade-in { animation: boardFadeIn 0.5s cubic-bezier(0.4,0,0.2,1) forwards; }
         @keyframes boardFadeIn {
-            0% { 
-                opacity: 0; 
-                transform: translateY(30px) scale(0.98);
-                filter: blur(5px);
-            }
-            100% { 
-                opacity: 1; 
-                transform: translateY(0) scale(1);
-                filter: blur(0);
-            }
+            0%   { opacity: 0; transform: translateY(30px) scale(0.98); filter: blur(5px); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
-        
-        .column { 
-            background: rgba(10, 0, 0, 0.95); 
-            border: 1px solid #4a0000; 
-            flex: 1; 
-            min-width: 320px; 
-            border-radius: 4px; 
-            overflow: hidden; 
-            opacity: 0;
-            transform: translateX(-30px);
-            animation: slideIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+
+        .column {
+            background: rgba(0,10,25,0.96); border: 1px solid var(--border-mid);
+            flex: 1; min-width: 320px; border-radius: 4px; overflow: hidden;
+            opacity: 0; transform: translateX(-30px);
+            animation: slideIn 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
         }
-        
         .column:nth-child(1) { animation-delay: 0.1s; }
         .column:nth-child(2) { animation-delay: 0.2s; }
         .column:nth-child(3) { animation-delay: 0.3s; }
         .column:nth-child(4) { animation-delay: 0.4s; }
         .column:nth-child(5) { animation-delay: 0.5s; }
-        
         @keyframes slideIn {
-            from { 
-                opacity: 0; 
-                transform: translateX(-30px) scale(0.95);
-            }
-            to { 
-                opacity: 1; 
-                transform: translateX(0) scale(1);
-            }
+            from { opacity: 0; transform: translateX(-30px) scale(0.95); }
+            to   { opacity: 1; transform: translateX(0) scale(1); }
         }
-        
-        .col-header { padding: 20px; background: linear-gradient(to bottom, #500000, transparent); border-bottom: 2px solid var(--red-lava); text-align: center; }
+
+        .col-header { padding: 20px; background: linear-gradient(to bottom, rgba(0,60,120,0.6), transparent); border-bottom: 2px solid var(--blue-ice); text-align: center; }
         .col-title { font-family: 'Rajdhani'; font-size: 1.6rem; font-weight: 800; color: #fff; }
-        .player-card { background: rgba(30, 0, 0, 0.4); border: 1px solid #2a0000; margin: 12px; padding: 18px; transition: 0.3s; cursor: pointer; }
-        .player-card:hover { transform: translateX(5px); border-color: var(--red-lava); }
-        .player-card.ht1-gold { border: 1px solid var(--ht-gold); box-shadow: inset 0 0 10px rgba(255, 204, 0, 0.1); }
+
+        .player-card { background: rgba(0,20,50,0.35); border: 1px solid var(--border-dim); margin: 12px; padding: 18px; transition: 0.3s; cursor: pointer; }
+        .player-card:hover { transform: translateX(5px); border-color: var(--blue-ice); box-shadow: 0 0 15px var(--blue-glow-soft); }
+        .player-card.ht1-gold { border: 1px solid var(--ht-gold); box-shadow: inset 0 0 10px rgba(255,204,0,0.1); }
+
         .p-rank { font-family: 'Rajdhani'; font-weight: 900; font-size: 1.4rem; }
-        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 6px; margin-top: 15px; border-top: 1px solid #220000; padding-top: 10px; }
-        .stat-box { background: #000; padding: 5px 8px; font-size: 0.6rem; display: flex; justify-content: space-between; border: 1px solid #1a0000; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 6px; margin-top: 15px; border-top: 1px solid var(--border-dim); padding-top: 10px; }
+        .stat-box { background: rgba(0,5,15,0.8); padding: 5px 8px; font-size: 0.6rem; display: flex; justify-content: space-between; border: 1px solid var(--border-dim); }
+
+        /* ── Staff ── */
         .staff-grid { display: flex; justify-content: center; gap: 20px; width: 100%; padding: 50px 20px; flex-wrap: wrap; }
-        .staff-card { background: #000; border: 1px solid #440000; padding: 30px; width: 280px; text-align: center; transition: 0.4s; text-decoration: none; }
-        .staff-card:hover { border-color: var(--red-lava); transform: translateY(-10px); }
-        .staff-role { color: var(--red-lava); font-family: 'Rajdhani'; font-weight: 800; font-size: 0.8rem; letter-spacing: 2px; }
+        .staff-card { background: rgba(0,10,25,0.9); border: 1px solid var(--border-mid); padding: 30px; width: 280px; text-align: center; transition: 0.4s; text-decoration: none; }
+        .staff-card:hover { border-color: var(--blue-ice); transform: translateY(-10px); box-shadow: 0 15px 40px var(--blue-glow-soft); }
+        .staff-role { color: var(--blue-ice); font-family: 'Rajdhani'; font-weight: 800; font-size: 0.8rem; letter-spacing: 2px; }
         .staff-name { color: #fff; font-size: 1.5rem; font-weight: 800; display: block; margin-top: 10px; }
-        
-        /* Community Hub Styles */
-        .community-hub {
-            width: 100%;
-            min-height: 600px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 40px;
-            position: relative;
-            background: linear-gradient(135deg, rgba(20, 0, 0, 0.8) 0%, rgba(5, 0, 0, 0.95) 100%);
+
+        /* ── Community ── */
+        .community-hub { width: 100%; min-height: 600px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 40px; background: linear-gradient(135deg, rgba(0,20,50,0.7) 0%, rgba(0,8,20,0.95) 100%); }
+        .community-title { font-family: 'Rajdhani'; font-size: 4rem; font-weight: 900; color: var(--blue-ice); text-align: center; margin-bottom: 20px; text-shadow: 0 0 30px var(--blue-glow), 0 0 60px var(--blue-glow); animation: titlePulse 3s ease-in-out infinite; }
+        @keyframes titlePulse {
+            0%, 100% { text-shadow: 0 0 30px var(--blue-glow), 0 0 60px var(--blue-glow); }
+            50%       { text-shadow: 0 0 50px var(--blue-glow), 0 0 100px var(--blue-glow-soft); }
         }
-        
-        .community-title {
-            font-family: 'Rajdhani';
-            font-size: 4rem;
-            font-weight: 900;
-            color: var(--red-lava);
-            text-align: center;
-            margin-bottom: 20px;
-            text-shadow: 0 0 30px var(--red-glow), 0 0 60px var(--red-glow);
-            animation: title-pulse 3s ease-in-out infinite;
-        }
-        
-        @keyframes title-pulse {
-            0%, 100% { text-shadow: 0 0 30px var(--red-glow), 0 0 60px var(--red-glow); }
-            50% { text-shadow: 0 0 40px var(--red-glow), 0 0 80px var(--red-glow), 0 0 100px var(--red-glow); }
-        }
-        
-        .community-subtitle {
-            font-family: 'Rajdhani';
-            font-size: 1.2rem;
-            color: #999;
-            text-align: center;
-            margin-bottom: 50px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-        
-        .discord-button {
-            background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%);
-            color: white;
-            padding: 25px 60px;
-            text-decoration: none;
-            font-family: 'Rajdhani';
-            font-weight: 800;
-            font-size: 2rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 40px rgba(88, 101, 242, 0.4);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 50px;
-        }
-        
-        .discord-button:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 60px rgba(88, 101, 242, 0.6);
-        }
-        
-        .discord-icon {
-            font-size: 2.5rem;
-        }
-        
-        .community-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 30px;
-            width: 100%;
-            max-width: 900px;
-            margin-top: 40px;
-        }
-        
-        .stat-card {
-            background: rgba(30, 0, 0, 0.6);
-            border: 2px solid #440000;
-            padding: 30px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border-radius: 4px;
-        }
-        
-        .stat-card:hover {
-            border-color: var(--red-lava);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
-        }
-        
-        .stat-number {
-            font-family: 'Rajdhani';
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--red-lava);
-            margin-bottom: 10px;
-        }
-        
-        .stat-label {
-            font-family: 'Rajdhani';
-            font-size: 1rem;
-            color: #999;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-        
-        .community-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1000px;
-            margin-top: 50px;
-        }
-        
-        .feature-card {
-            background: rgba(15, 0, 0, 0.8);
-            border: 1px solid #330000;
-            padding: 25px;
-            border-radius: 4px;
-            transition: all 0.3s ease;
-        }
-        
-        .feature-card:hover {
-            border-color: var(--red-lava);
-            transform: translateY(-3px);
-        }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-        
-        .feature-title {
-            font-family: 'Rajdhani';
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-        
-        .feature-desc {
-            font-size: 0.9rem;
-            color: #999;
-            line-height: 1.6;
-        }
+        .community-subtitle { font-family: 'Rajdhani'; font-size: 1.2rem; color: #557799; text-align: center; margin-bottom: 50px; letter-spacing: 3px; text-transform: uppercase; }
+        .discord-button { background: linear-gradient(135deg, #5865F2 0%, #4752C4 100%); color: white; padding: 25px 60px; text-decoration: none; font-family: 'Rajdhani'; font-weight: 800; font-size: 2rem; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(88,101,242,0.4); display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
+        .discord-button:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 60px rgba(88,101,242,0.6); }
+        .discord-icon { font-size: 2.5rem; }
+        .realm-info { background: linear-gradient(135deg, var(--blue-ice) 0%, var(--blue-mid) 100%); color: #000; padding: 25px 60px; text-decoration: none; font-family: 'Rajdhani'; font-weight: 800; border-radius: 8px; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(0,180,255,0.3); display: flex; align-items: center; gap: 15px; border: none; }
+        .realm-info:hover { transform: translateY(-5px) scale(1.05); box-shadow: 0 15px 60px rgba(0,180,255,0.5); }
+        .realm-icon { font-size: 2.5rem; }
+        .realm-details { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
+        .realm-label { font-family: 'Rajdhani'; font-size: 0.75rem; font-weight: 700; color: rgba(0,0,0,0.6); letter-spacing: 2px; text-transform: uppercase; }
+        .realm-code { font-family: 'Rajdhani'; font-size: 2rem; font-weight: 800; color: #000; letter-spacing: 1px; }
+        .community-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; width: 100%; max-width: 900px; margin-top: 40px; }
+        .stat-card { background: rgba(0,20,50,0.6); border: 2px solid var(--border-mid); padding: 30px; text-align: center; transition: all 0.3s ease; border-radius: 4px; }
+        .stat-card:hover { border-color: var(--blue-ice); transform: translateY(-5px); box-shadow: 0 10px 30px var(--blue-glow-soft); }
+        .stat-number { font-family: 'Rajdhani'; font-size: 3rem; font-weight: 900; color: var(--blue-ice); margin-bottom: 10px; }
+        .stat-label { font-family: 'Rajdhani'; font-size: 1rem; color: #557799; letter-spacing: 2px; text-transform: uppercase; }
+        .community-features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; width: 100%; max-width: 1000px; margin-top: 50px; }
+        .feature-card { background: rgba(0,10,30,0.8); border: 1px solid var(--border-dim); padding: 25px; border-radius: 4px; transition: all 0.3s ease; }
+        .feature-card:hover { border-color: var(--blue-ice); transform: translateY(-3px); }
+        .feature-icon { font-size: 2.5rem; margin-bottom: 15px; }
+        .feature-title { font-family: 'Rajdhani'; font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
+        .feature-desc { font-size: 0.9rem; color: #557799; line-height: 1.6; }
     </style>
 </head>
 <body>
 
-<!-- Animated Background -->
 <div class="background-container">
     <div class="bg-gradient"></div>
+    <div class="stars"></div>
+    <div class="aurora"></div>
     <div class="glow-orb glow-orb-1"></div>
     <div class="glow-orb glow-orb-2"></div>
     <div class="glow-orb glow-orb-3"></div>
-    <div class="lightning-flash"></div>
-    <div id="particles"></div>
+    <div id="snowContainer"></div>
 </div>
 
-<div class="nether-floor"></div>
+<div class="ice-floor"></div>
 
 <nav class="navbar">
     <div class="logo-area">
@@ -560,7 +364,6 @@
 
 <div class="board" id="board">Loading Database...</div>
 
-<!-- Search Results Modal -->
 <div class="search-modal" id="searchModal">
     <div class="modal-content">
         <button class="modal-close" onclick="closeSearchModal()">×</button>
@@ -569,168 +372,185 @@
 </div>
 
 <script>
-    const MODES = ["Overall", "Sword", "Vanilla", "UHC", "Pot", "NetherOP", "SMP", "Axe", "Mace", "Iron UHC", "Community", "Staff"];
-    const KITS = ["Sword", "Vanilla", "UHC", "Pot", "NetherOP", "SMP", "Axe", "Mace", "Iron UHC"];
-    
-    const MODE_ICONS = {
-        "Overall": "https://mctiers.com/tier_icons/overall.svg",
-        "Sword": "https://mctiers.com/tier_icons/sword.svg",
-        "Vanilla": "https://mctiers.com/tier_icons/vanilla.svg",
-        "UHC": "https://mctiers.com/tier_icons/uhc.svg",
-        "Pot": "https://mctiers.com/tier_icons/pot.svg",
-        "NetherOP": "https://mctiers.com/tier_icons/nethop.svg",
-        "SMP": "https://mctiers.com/tier_icons/smp.svg",
-        "Axe": "https://mctiers.com/tier_icons/axe.svg",
-        "Mace": "https://mctiers.com/tier_icons/mace.svg",
-        "Iron UHC": "https://mctiers.com/tier_icons/uhc.svg",
-        "Community": "👥",
-        "Staff": "👑"
-    };
-    
-    let PLAYERS = [];
-    let currentMode = "Overall";
-    
-    function createParticles() {
-        const container = document.getElementById('particles');
-        const particleTypes = [
-            { class: 'fall-large', count: 30 },
-            { class: 'fall-medium', count: 40 },
-            { class: 'fall-small', count: 50 },
-            { class: 'float-up', count: 35 },
-            { class: 'drift', count: 25 }
-        ];
-        
-        particleTypes.forEach(type => {
-            for(let i = 0; i < type.count; i++) {
-                const particle = document.createElement('div');
-                particle.className = `particle ${type.class}`;
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 10 + 's';
-                const baseDuration = 5;
-                particle.style.animationDuration = (baseDuration + Math.random() * 3) + 's';
-                container.appendChild(particle);
+    /* ── Animated Snowflake Favicon ── */
+    (function () {
+        const canvas = document.createElement('canvas');
+        canvas.width = 64; canvas.height = 64;
+        const ctx = canvas.getContext('2d');
+        let angle = 0, pulse = 0;
+
+        function drawFavicon() {
+            ctx.clearRect(0, 0, 64, 64);
+
+            // Dark blue background
+            ctx.fillStyle = '#000814';
+            ctx.beginPath();
+            ctx.roundRect(0, 0, 64, 64, 10);
+            ctx.fill();
+
+            // Pulsing glow halo
+            const glowAlpha = 0.35 + Math.sin(pulse) * 0.25;
+            const grad = ctx.createRadialGradient(32, 32, 4, 32, 32, 30);
+            grad.addColorStop(0, `rgba(0,180,255,${glowAlpha})`);
+            grad.addColorStop(1, 'transparent');
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.arc(32, 32, 30, 0, Math.PI * 2); ctx.fill();
+
+            // Rotating snowflake arms
+            ctx.save();
+            ctx.translate(32, 32);
+            ctx.rotate(angle);
+            const armAlpha = 0.7 + Math.sin(pulse) * 0.3;
+            ctx.strokeStyle = `rgba(0,210,255,${armAlpha})`;
+            ctx.lineWidth = 2;
+            ctx.lineCap = 'round';
+            for (let i = 0; i < 6; i++) {
+                ctx.rotate(Math.PI / 3);
+                ctx.beginPath();
+                ctx.moveTo(0, 0); ctx.lineTo(0, 22); ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, 10); ctx.lineTo(7, 16); ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, 10); ctx.lineTo(-7, 16); ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, 17); ctx.lineTo(4, 22); ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(0, 17); ctx.lineTo(-4, 22); ctx.stroke();
             }
-        });
-    }
-    
-    async function loadPlayers() {
-        try {
-            const response = await fetch(`https://raw.githubusercontent.com/Bronze-solos/j-network/main/players.json?t=${new Date().getTime()}`);
-            PLAYERS = await response.json();
-            renderTabs();
-            renderBoard();
-        } catch (err) { 
-            document.getElementById('board').innerHTML = "Failed to load rankings."; 
+            ctx.restore();
+
+            // Center dot
+            const dot = ctx.createRadialGradient(32, 32, 0, 32, 32, 5);
+            dot.addColorStop(0, '#ffffff');
+            dot.addColorStop(0.6, '#00ccff');
+            dot.addColorStop(1, 'transparent');
+            ctx.fillStyle = dot;
+            ctx.beginPath(); ctx.arc(32, 32, 5, 0, Math.PI * 2); ctx.fill();
+
+            // Border ring
+            ctx.strokeStyle = `rgba(0,180,255,${0.4 + Math.sin(pulse) * 0.6})`;
+            ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.roundRect(2, 2, 60, 60, 9); ctx.stroke();
+
+            let link = document.querySelector("link[rel~='icon']");
+            if (!link) { link = document.createElement('link'); link.rel = 'icon'; document.head.appendChild(link); }
+            link.href = canvas.toDataURL();
+
+            angle += 0.025;
+            pulse += 0.07;
+            requestAnimationFrame(drawFavicon);
+        }
+        drawFavicon();
+    })();
+
+    /* ── Snow ── */
+    function createSnow() {
+        const container = document.getElementById('snowContainer');
+        const flakes = ['❄', '❅', '❆', '·', '•', '*', '✦'];
+        for (let i = 0; i < 90; i++) {
+            const el = document.createElement('div');
+            el.className = 'snowflake';
+            el.textContent = flakes[Math.floor(Math.random() * flakes.length)];
+            const size  = 8 + Math.random() * 20;
+            const drift = (Math.random() - 0.5) * 220;
+            el.style.cssText = `
+                left:${Math.random() * 100}%;
+                font-size:${size}px;
+                opacity:${0.2 + Math.random() * 0.8};
+                --drift:${drift}px;
+                animation-duration:${6 + Math.random() * 16}s;
+                animation-delay:${Math.random() * 18}s;
+                filter:blur(${Math.random() > 0.75 ? 1 : 0}px);
+            `;
+            container.appendChild(el);
         }
     }
-    
-    function setMode(m) { 
+
+    /* ── App ── */
+    const MODES = ["Overall","Sword","Vanilla","UHC","Pot","NetherOP","SMP","Axe","Mace","Iron UHC","Community","Staff"];
+    const KITS  = ["Sword","Vanilla","UHC","Pot","NetherOP","SMP","Axe","Mace","Iron UHC"];
+
+    const MODE_ICONS = {
+        "Overall":"https://mctiers.com/tier_icons/overall.svg",
+        "Sword":"https://mctiers.com/tier_icons/sword.svg",
+        "Vanilla":"https://mctiers.com/tier_icons/vanilla.svg",
+        "UHC":"https://mctiers.com/tier_icons/uhc.svg",
+        "Pot":"https://mctiers.com/tier_icons/pot.svg",
+        "NetherOP":"https://mctiers.com/tier_icons/nethop.svg",
+        "SMP":"https://mctiers.com/tier_icons/smp.svg",
+        "Axe":"https://mctiers.com/tier_icons/axe.svg",
+        "Mace":"https://mctiers.com/tier_icons/mace.svg",
+        "Iron UHC":"https://mctiers.com/tier_icons/uhc.svg",
+        "Community":"👥",
+        "Staff":"👑"
+    };
+
+    let PLAYERS = [];
+    let currentMode = "Overall";
+
+    async function loadPlayers() {
+        try {
+            const res = await fetch(`https://raw.githubusercontent.com/Bronze-solos/j-network/main/players.json?t=${Date.now()}`);
+            PLAYERS = await res.json();
+            renderTabs(); renderBoard();
+        } catch (e) {
+            document.getElementById('board').innerHTML = "Failed to load rankings.";
+        }
+    }
+
+    function setMode(m) {
         const board = document.getElementById('board');
         board.classList.add('transitioning');
-        
         setTimeout(() => {
-            currentMode = m; 
-            renderTabs(); 
-            renderBoard();
+            currentMode = m; renderTabs(); renderBoard();
             board.classList.remove('transitioning');
             board.classList.add('fade-in');
-            setTimeout(() => {
-                board.classList.remove('fade-in');
-            }, 500);
+            setTimeout(() => board.classList.remove('fade-in'), 500);
         }, 300);
     }
-    
+
     function renderTabs() {
         document.getElementById('modeList').innerHTML = MODES.map(m => {
-            const iconUrl = MODE_ICONS[m];
+            const icon = MODE_ICONS[m];
             const isEmoji = m === "Community" || m === "Staff";
-            
-            if (isEmoji) {
-                return `
-                    <button class="mode-btn ${m === currentMode ? 'active' : ''}" onclick="setMode('${m}')">
-                        <div class="mode-icon emoji">${iconUrl}</div>
-                        <span class="mode-label">${m}</span>
-                    </button>
-                `;
-            } else {
-                return `
-                    <button class="mode-btn ${m === currentMode ? 'active' : ''}" onclick="setMode('${m}')">
-                        <img src="${iconUrl}" alt="${m}" class="mode-icon" />
-                        <span class="mode-label">${m}</span>
-                    </button>
-                `;
-            }
+            return `<button class="mode-btn ${m === currentMode ? 'active' : ''}" onclick="setMode('${m}')">
+                ${isEmoji ? `<div class="mode-icon emoji">${icon}</div>` : `<img src="${icon}" alt="${m}" class="mode-icon"/>`}
+                <span class="mode-label">${m}</span>
+            </button>`;
         }).join('');
     }
-    
+
     function renderBoard() {
         const board = document.getElementById('board');
         board.innerHTML = '';
-        
-        if(currentMode === "Community") {
-            board.innerHTML = `
-                <div class="community-hub">
-                    <div class="community-title">JOIN OUR COMMUNITY</div>
-                    <div class="community-subtitle">Connect • Compete • Conquer</div>
-                    
-                    <div style="display: flex; gap: 30px; margin-bottom: 50px; flex-wrap: wrap; justify-content: center;">
-                        <a href="https://discord.gg/DzSfUJcgQ7" target="_blank" class="discord-button">
-                            <span class="discord-icon">💬</span>
-                            <span>JOIN DISCORD SERVER</span>
-                        </a>
-                        
-                        <a href="https://realms.gg/jRzLnhzh5M4" target="_blank" class="realm-info" style="margin: 0; text-decoration: none; cursor: pointer;">
-                            <span class="realm-icon">🎮</span>
-                            <div class="realm-details">
-                                <div class="realm-label">REALM CODE</div>
-                                <div class="realm-code">jRzLnhzh5M4</div>
-                            </div>
-                        </a>
-                    </div>
-                    
-                    <div class="community-stats">
-                        <div class="stat-card">
-                            <div class="stat-number">500+</div>
-                            <div class="stat-label">Active Players</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">9</div>
-                            <div class="stat-label">Game Modes</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-number">24/7</div>
-                            <div class="stat-label">Server Uptime</div>
-                        </div>
-                    </div>
-                    
-                    <div class="community-features">
-                        <div class="feature-card">
-                            <div class="feature-icon">⚔️</div>
-                            <div class="feature-title">Competitive PvP</div>
-                            <div class="feature-desc">Join ranked matches and climb the leaderboards across multiple game modes</div>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">🏆</div>
-                            <div class="feature-title">Tournaments</div>
-                            <div class="feature-desc">Participate in weekly tournaments with exclusive rewards and prizes</div>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">👥</div>
-                            <div class="feature-title">Active Community</div>
-                            <div class="feature-desc">Join a thriving community of skilled players and make new friends</div>
-                        </div>
-                        <div class="feature-card">
-                            <div class="feature-icon">⭐</div>
-                            <div class="feature-title">Prestige System</div>
-                            <div class="feature-desc">Earn prestige points and unlock exclusive perks as you progress</div>
-                        </div>
-                    </div>
+
+        if (currentMode === "Community") {
+            board.innerHTML = `<div class="community-hub">
+                <div class="community-title">JOIN OUR COMMUNITY</div>
+                <div class="community-subtitle">Connect • Compete • Conquer</div>
+                <div style="display:flex;gap:30px;margin-bottom:50px;flex-wrap:wrap;justify-content:center;">
+                    <a href="https://discord.gg/DzSfUJcgQ7" target="_blank" class="discord-button"><span class="discord-icon">💬</span><span>JOIN DISCORD SERVER</span></a>
+                    <a href="https://realms.gg/jRzLnhzh5M4" target="_blank" class="realm-info">
+                        <span class="realm-icon">🎮</span>
+                        <div class="realm-details"><div class="realm-label">REALM CODE</div><div class="realm-code">jRzLnhzh5M4</div></div>
+                    </a>
                 </div>
-            `;
+                <div class="community-stats">
+                    <div class="stat-card"><div class="stat-number">500+</div><div class="stat-label">Active Players</div></div>
+                    <div class="stat-card"><div class="stat-number">9</div><div class="stat-label">Game Modes</div></div>
+                    <div class="stat-card"><div class="stat-number">24/7</div><div class="stat-label">Server Uptime</div></div>
+                </div>
+                <div class="community-features">
+                    <div class="feature-card"><div class="feature-icon">⚔️</div><div class="feature-title">Competitive PvP</div><div class="feature-desc">Join ranked matches and climb the leaderboards across multiple game modes</div></div>
+                    <div class="feature-card"><div class="feature-icon">🏆</div><div class="feature-title">Tournaments</div><div class="feature-desc">Participate in weekly tournaments with exclusive rewards and prizes</div></div>
+                    <div class="feature-card"><div class="feature-icon">👥</div><div class="feature-title">Active Community</div><div class="feature-desc">Join a thriving community of skilled players and make new friends</div></div>
+                    <div class="feature-card"><div class="feature-icon">⭐</div><div class="feature-title">Prestige System</div><div class="feature-desc">Earn prestige points and unlock exclusive perks as you progress</div></div>
+                </div>
+            </div>`;
             return;
         }
-        
-        if(currentMode === "Staff") {
+
+        if (currentMode === "Staff") {
             board.innerHTML = `<div class="staff-grid">
                 <a href="#" class="staff-card"><span class="staff-role">OWNER</span><span class="staff-name">JeffersonD44</span></a>
                 <a href="#" class="staff-card"><span class="staff-role">CO-OWNER</span><span class="staff-name">BronzeHarpy80</span></a>
@@ -739,122 +559,125 @@
             </div>`;
             return;
         }
-        
-        if(currentMode === "Overall") renderOverall(board);
+
+        if (currentMode === "Overall") renderOverall(board);
         else renderKitTiers(board);
     }
-    
+
     function renderOverall(board) {
-        const sorted = [...PLAYERS].sort((a,b) => (b.prestige || 0) - (a.prestige || 0));
-        board.innerHTML = `<div class="column" style="min-width:100%"><div class="col-header"><div class="col-title">GLOBAL PRESTIGE</div></div><div>
-            ${sorted.map((p, i) => `<div class="player-card" onclick="showPlayerDetails('${p.name}')"><div style="display:flex; justify-content:space-between; align-items:center;"><div style="display:flex; align-items:center; gap:15px;"><div style="color:var(--red-lava); font-weight:900; font-size:1.4rem;">#${i+1}</div><div><div style="font-weight:800;">${p.name}</div><div style="font-size:0.7rem; color:#666;">${p.region} • ${p.prestige || 0} PTS</div></div></div></div><div class="stat-grid">
-            ${KITS.map(k => { 
-                let r = (p.tiers && p.tiers[k]) ? p.tiers[k] : "UR"; 
-                return `<div class="stat-box"><span style="color:#444">${k.slice(0,3).toUpperCase()}</span><span style="color:${r.includes('HT') ? 'var(--ht-gold)' : (r==='UR' ? '#333' : '#fff')}">${r}</span></div>` 
-            }).join('')}
-            </div></div>`).join('')}</div></div>`;
+        const sorted = [...PLAYERS].sort((a, b) => (b.prestige || 0) - (a.prestige || 0));
+        board.innerHTML = `<div class="column" style="min-width:100%">
+            <div class="col-header"><div class="col-title">GLOBAL PRESTIGE</div></div>
+            <div>${sorted.map((p, i) => `
+                <div class="player-card" onclick="showPlayerDetails('${p.name}')">
+                    <div style="display:flex;justify-content:space-between;align-items:center;">
+                        <div style="display:flex;align-items:center;gap:15px;">
+                            <div style="color:var(--blue-ice);font-weight:900;font-size:1.4rem;">#${i + 1}</div>
+                            <div>
+                                <div style="font-weight:800;">${p.name}</div>
+                                <div style="font-size:0.7rem;color:#335566;">${p.region} • ${p.prestige || 0} PTS</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stat-grid">
+                        ${KITS.map(k => {
+                            const r = (p.tiers && p.tiers[k]) ? p.tiers[k] : "UR";
+                            return `<div class="stat-box">
+                                <span style="color:#223344">${k.slice(0,3).toUpperCase()}</span>
+                                <span style="color:${r.includes('HT') ? 'var(--ht-gold)' : (r === 'UR' ? '#112233' : '#fff')}">${r}</span>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>`).join('')}
+            </div>
+        </div>`;
     }
-    
+
     function renderKitTiers(board) {
         const eligible = PLAYERS.filter(p => p.tiers && p.tiers[currentMode] && p.tiers[currentMode] !== "UR");
-        
-        for(let t = 1; t <= 5; t++) {
+        for (let t = 1; t <= 5; t++) {
             const inTier = eligible.filter(p => p.tiers[currentMode].includes(t.toString()));
 
-            // FIX: Sort HT above LT within each tier, then by prestige within each group
+            // HT always above LT within same tier, then sort by prestige
             inTier.sort((a, b) => {
-                const ra = a.tiers[currentMode];
-                const rb = b.tiers[currentMode];
-                const aIsHT = ra.startsWith('HT');
-                const bIsHT = rb.startsWith('HT');
-                if (aIsHT && !bIsHT) return -1;
-                if (!aIsHT && bIsHT) return 1;
+                const ra = a.tiers[currentMode], rb = b.tiers[currentMode];
+                const aHT = ra.startsWith('HT'), bHT = rb.startsWith('HT');
+                if (aHT && !bHT) return -1;
+                if (!aHT && bHT) return 1;
                 return (b.prestige || 0) - (a.prestige || 0);
             });
-            
-            let tierContent = '';
-            if(inTier.length === 0) {
-                tierContent = `<div style="padding:40px; text-align:center; color:#444; font-family:'Rajdhani'; font-size:0.9rem;">NO RANKED PLAYERS</div>`;
-            } else {
-                tierContent = inTier.map(p => { 
-                    let r = p.tiers[currentMode]; 
-                    return `<div class="player-card ${r === 'HT1' ? 'ht1-gold' : ''}" onclick="showPlayerDetails('${p.name}')"><div style="display:flex; justify-content:space-between; align-items:center;"><div><div style="font-weight:800;">${p.name}</div><div style="font-size:0.7rem; color:#555;">${p.region}</div></div><div class="p-rank" style="color:${r === 'HT1' ? 'var(--ht-gold)' : '#fff'}">${r}</div></div></div>` 
+
+            const tierContent = inTier.length === 0
+                ? `<div style="padding:40px;text-align:center;color:#112233;font-family:'Rajdhani';font-size:0.9rem;">NO RANKED PLAYERS</div>`
+                : inTier.map(p => {
+                    const r = p.tiers[currentMode];
+                    return `<div class="player-card ${r === 'HT1' ? 'ht1-gold' : ''}" onclick="showPlayerDetails('${p.name}')">
+                        <div style="display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <div style="font-weight:800;">${p.name}</div>
+                                <div style="font-size:0.7rem;color:#334455;">${p.region}</div>
+                            </div>
+                            <div class="p-rank" style="color:${r === 'HT1' ? 'var(--ht-gold)' : 'var(--blue-ice)'}">${r}</div>
+                        </div>
+                    </div>`;
                 }).join('');
-            }
-            
-            board.innerHTML += `<div class="column"><div class="col-header"><div class="col-title">TIER ${t}</div><div style="font-size:0.7rem; color:#666; margin-top:5px; font-weight:600;">${currentMode.toUpperCase()}</div></div><div>${tierContent}</div></div>`;
+
+            board.innerHTML += `<div class="column">
+                <div class="col-header">
+                    <div class="col-title">TIER ${t}</div>
+                    <div style="font-size:0.7rem;color:#335566;margin-top:5px;font-weight:600;">${currentMode.toUpperCase()}</div>
+                </div>
+                <div>${tierContent}</div>
+            </div>`;
         }
     }
-    
+
     function searchPlayer() {
         const query = document.getElementById('searchInput').value.trim().toLowerCase();
-        if(!query) return;
-        
+        if (!query) return;
         const player = PLAYERS.find(p => p.name.toLowerCase() === query);
-        
-        if(player) {
-            showPlayerDetails(player.name);
-        } else {
+        if (player) { showPlayerDetails(player.name); }
+        else {
             document.getElementById('searchResults').innerHTML = `
                 <div class="no-results">
-                    <div style="font-family:'Rajdhani'; font-size:2rem; font-weight:800; color:var(--red-lava); margin-bottom:20px;">PLAYER NOT FOUND</div>
+                    <div style="font-family:'Rajdhani';font-size:2rem;font-weight:800;color:var(--blue-ice);margin-bottom:20px;">PLAYER NOT FOUND</div>
                     <div>No player named "${document.getElementById('searchInput').value}" exists in the database.</div>
-                </div>
-            `;
+                </div>`;
             document.getElementById('searchModal').classList.add('active');
         }
     }
-    
+
     function showPlayerDetails(playerName) {
         const player = PLAYERS.find(p => p.name === playerName);
-        if(!player) return;
-        
-        const globalRank = [...PLAYERS].sort((a,b) => (b.prestige || 0) - (a.prestige || 0)).findIndex(p => p.name === playerName) + 1;
-        
-        const resultsHTML = `
+        if (!player) return;
+        const globalRank = [...PLAYERS].sort((a, b) => (b.prestige || 0) - (a.prestige || 0)).findIndex(p => p.name === playerName) + 1;
+        document.getElementById('searchResults').innerHTML = `
             <div class="search-result-header">
                 <div class="search-result-name">${player.name}</div>
                 <div class="search-result-meta">Region: ${player.region} • Global Rank: #${globalRank}</div>
                 <div class="search-result-prestige">⭐ ${player.prestige || 0} PRESTIGE POINTS</div>
             </div>
-            <div style="margin-bottom:15px; font-family:'Rajdhani'; font-size:1.5rem; font-weight:800; color:#fff;">KIT RANKINGS</div>
+            <div style="margin-bottom:15px;font-family:'Rajdhani';font-size:1.5rem;font-weight:800;color:#fff;">KIT RANKINGS</div>
             <div class="kit-results">
                 ${KITS.map(kit => {
                     const rank = (player.tiers && player.tiers[kit]) ? player.tiers[kit] : "UR";
-                    const isRanked = rank !== "UR";
                     const isHT1 = rank === "HT1";
-                    return `
-                        <div class="kit-card ${isRanked ? 'ranked' : ''} ${isHT1 ? 'ht1' : ''}">
-                            <div class="kit-name">${kit}</div>
-                            <div class="kit-rank ${isHT1 ? 'ht1' : (isRanked ? 'ranked' : 'unranked')}">${rank}</div>
-                        </div>
-                    `;
+                    return `<div class="kit-card ${rank !== 'UR' ? 'ranked' : ''} ${isHT1 ? 'ht1' : ''}">
+                        <div class="kit-name">${kit}</div>
+                        <div class="kit-rank ${isHT1 ? 'ht1' : (rank !== 'UR' ? 'ranked' : 'unranked')}">${rank}</div>
+                    </div>`;
                 }).join('')}
-            </div>
-        `;
-        
-        document.getElementById('searchResults').innerHTML = resultsHTML;
+            </div>`;
         document.getElementById('searchModal').classList.add('active');
     }
-    
-    function closeSearchModal() {
-        document.getElementById('searchModal').classList.remove('active');
-    }
-    
-    function clearSearch() {
-        document.getElementById('searchInput').value = '';
-        closeSearchModal();
-    }
-    
-    document.getElementById('searchModal').addEventListener('click', function(e) {
-        if(e.target === this) closeSearchModal();
-    });
-    
-    document.addEventListener('keydown', function(e) {
-        if(e.key === 'Escape') closeSearchModal();
-    });
-    
-    createParticles();
+
+    function closeSearchModal() { document.getElementById('searchModal').classList.remove('active'); }
+    function clearSearch() { document.getElementById('searchInput').value = ''; closeSearchModal(); }
+
+    document.getElementById('searchModal').addEventListener('click', function (e) { if (e.target === this) closeSearchModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSearchModal(); });
+
+    createSnow();
     loadPlayers();
     setInterval(loadPlayers, 30000);
 </script>
